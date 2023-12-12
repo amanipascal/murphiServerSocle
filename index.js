@@ -28,6 +28,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 // API routes
 
 app.use("/api/v1", require("./routes/authRoute"));
+const userRouter = require('./routes/usersRoute')
+app.use("/api/v1", userRouter);
+// app.use("/api/v1/users/me",  require('./middlewares/authenticate'), require('./controllers/security/getMeController') );
 
 app.get('/protected', require('./middlewares/authenticate'), (req, res) => {
   res.json({message: 'Welcome to the protected route'});

@@ -6,5 +6,7 @@ exports.changePassword = require('./changePwdController')
 exports.resetPasswordRequest = require('./resetPasswordRequestController')
 exports.resetPassword = require('./resetPasswordController')
 exports.refreshtoken = require('./refreshtokenController')
+exports.getMe = require('./getMeController')
+exports.logout = require('./logOutController')
 
 

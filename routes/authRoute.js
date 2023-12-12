@@ -3,13 +3,13 @@ const {
   otpBaseActivation,
   tokenBaseActivation,
   login,
+  logout,
   changePassword,
   resetPasswordRequest,
   resetPassword,
   refreshtoken
 } = require("../controllers/security");
-
-
+const { authenticate } = require("../middlewares");
 
 const router = require("express").Router();
 
@@ -21,5 +21,7 @@ router.post("/auth/changePassword", changePassword);
 router.post("/auth/resetPasswordRequest", resetPasswordRequest);
 router.post("/auth/resetPassword", resetPassword);
 router.post("/auth/refreshtoken", refreshtoken);
+router.route("/auth/logout").put(authenticate, logout)
+
 
 module.exports = router;
