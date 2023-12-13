@@ -15,7 +15,11 @@ const connection = async () => {
 
     //ecoute sur l'evenement open. si la connection se passe bien
     dbConnection.once("open", (_) => {
-        console.log(`Connected successfully to the mongodb database`);
+        console.log(`Connected 1 successfully to the mongodb database`);
+    });
+
+    dbConnection.once("connected", (_) => {
+        console.log(`Connected 2 successfully to the mongodb database`);
     });
      //ecoute sur l'evenement error. si la connection echou (erreur)
     dbConnection.on("error", (err) => {
