@@ -45,6 +45,7 @@ const userRouter = require('./routes/usersRoute');
 const fileRouter = require('./routes/fileRoute');
 app.use("/api/v1", authRoute);
 app.use("/api/v1", userRouter);
+app.use("/api/v1", fileRouter);
 
 app.get('/protected', require('./middlewares/authenticate'), (req, res) => {
   res.json({message: 'Welcome to the protected route'});
@@ -56,45 +57,46 @@ app.get('/', (req, res) => {
 // --------------------------------- File upload with GridFS ----------------------------------------
 
 // Mongo URI
-const mongoURI = process.env.DB_URL || "";
+// const mongoURI = process.env.DB_URL || "";
 
-// Create mongo connection
-const conn = mongoose.createConnection(mongoURI);
+// // Create mongo connection
+// const conn = mongoose.createConnection(mongoURI);
 
-// Init gfs
-let gfs;
+// // Init gfs
+// let gfs;
 
-conn.once('open', () => {
-  gfs = Grid(conn.db, mongoose.mongo);
-  gfs.collection('uploads');
-});
+// conn.once('open', () => {
+//   gfs = Grid(conn.db, mongoose.mongo);
+//   gfs.collection('uploads');
+// });
 
-// Create storage engine
-const storage = new GridFsStorage({
-  url: mongoURI,
-  file: (req, file) => {
-    console.log('File :', file)
-    return new Promise((resolve, reject) => {
-      crypto.randomBytes(16, (err, buf) => {
-        if (err) {
-          return reject(err);
-        }
-        const filename = buf.toString('hex') + path.extname(file.originalname);
-        const fileInfo = {
-          filename: filename,
-          bucketName: 'uploads'
-        };
-        resolve(fileInfo);
-      });
-    });
-  }
-});
-const upload = multer({ storage });
+// // Create storage engine
+// const storage = new GridFsStorage({
+//   url: mongoURI,
+//   file: (req, file) => {
+//     console.log('File :', file)
+//     return new Promise((resolve, reject) => {
+//       crypto.randomBytes(16, (err, buf) => {
+//         if (err) {
+//           return reject(err);
+//         }
+//         const filename = buf.toString('hex') + path.extname(file.originalname);
+//         const fileInfo = {
+//           filename: filename,
+//           bucketName: 'uploads'
+//         };
+//         resolve(fileInfo);
+//       });
+//     });
+//   }
+// });
+// const upload = multer({ storage });
 
-app.post('/upload', upload.single('file'), (req, res) => {
-  console.log('File :', req.file)
-  res.json({ file: req.file });
-});
+// app.post('/upload', upload.single('avatar'), (req, res) => {
+//   console.log('File :', req.file)
+//   //res.json({ file: req.file });
+//   res.redirect('/')
+// });
 
 
 // const upload  = require("./utils/upload");
